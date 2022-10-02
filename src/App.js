@@ -1,9 +1,10 @@
+import Grid from './components/Grid.js'
 import './App.css';
 
 function App() {
   return (
       <div className="App">
-          <p>Hello, world!</p>
+        <Grid tiles={[['H','E','L','L','O'], ['W','O','R','L','D']]}/>
       </div>
   );
 }
