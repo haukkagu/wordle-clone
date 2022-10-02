@@ -3,18 +3,24 @@ import Grid from './components/Grid.js';
 import './App.css';
 
 const App = () => {
+  const [guesses, setGuesses] = useState([]);
   const [currentGuess, setCurrentGuess] = useState("");
 
   const handleKeyUp = (e) => {
     const k = e.key;
     const isLetter = (k.length == 1 && k.match(/[a-zA-Z]/));
-    const backspacePressed = (k == 'Backspace');
+    const removeLast = (k == 'Backspace' || k == 'Delete');
+    const submitGuess = (k == 'Enter');
 
     if (isLetter && currentGuess.length < 5) {
-      setCurrentGuess(prev => prev + k.toUpperCase());
+      setCurrentGuess(currentGuess + k.toUpperCase());
     }
-    if (backspacePressed && currentGuess.length > 0) {
-      setCurrentGuess(prev => prev.slice(0, -1));
+    if (removeLast && currentGuess.length > 0) {
+      setCurrentGuess(currentGuess.slice(0, -1));
+    }
+    if (submitGuess && currentGuess.length == 5) {
+      setGuesses([...guesses, currentGuess]);
+      setCurrentGuess("");
     }
   };
 
@@ -25,7 +31,14 @@ const App = () => {
 
   return (
       <div className="App">
-        <Grid tiles={[['H','E','L','L','O'], ['W','O','R','L','D'], currentGuess]} />
+        <Grid tiles={
+          [
+            ...guesses,
+            currentGuess.split('')
+          ]}
+          width={5}
+          height={7}
+        />
       </div>
   );
 }

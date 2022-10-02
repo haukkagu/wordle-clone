@@ -11,18 +11,15 @@ const GridTile = (props) => {
 const Grid = (props) => {
   const tiles = props.tiles;
 
-  if (tiles.length == 0) {
-    return;
-  }
-  const tileWidth = tiles[0].length;
-  const tileHeight = tiles.length;
+  const gridWidth = props.width || tiles[0].length;
+  const gridHeight = props.height || tiles.length;
 
   let rows = [];
-  for (let y = 0; y < tileHeight; y++) {
+  for (let y = 0; y < gridHeight; y++) {
     let row = [];
-    for (let x = 0; x < tileWidth; x++) {
+    for (let x = 0; x < gridWidth; x++) {
       row.push(
-        <GridTile value={tiles[y][x]} />
+        <GridTile value={(y < tiles.length && x < tiles[0].length) ? tiles[y][x] : ''} />
       );
     }
 
