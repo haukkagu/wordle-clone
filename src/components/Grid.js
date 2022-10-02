@@ -10,6 +10,10 @@ const GridTile = (props) => {
 
 const Grid = (props) => {
   const tiles = props.tiles;
+
+  if (tiles.length == 0) {
+    return;
+  }
   const tileWidth = tiles[0].length;
   const tileHeight = tiles.length;
 
@@ -29,7 +33,7 @@ const Grid = (props) => {
     );
   }
 
-   return (
+  return (
     <div className="grid">
       {rows}
     </div>
