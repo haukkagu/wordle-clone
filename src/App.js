@@ -3,6 +3,7 @@ import Grid from './components/Grid.js';
 import './App.css';
 
 const App = () => {
+  const hiddenWord = 'hello';
   const [guesses, setGuesses] = useState([]);
   const [currentGuess, setCurrentGuess] = useState("");
 
@@ -27,18 +28,11 @@ const App = () => {
   useEffect(() => {
     document.addEventListener('keyup', handleKeyUp);
     return () => document.removeEventListener('keyup', handleKeyUp);
-  }, [currentGuess]);
+  }, [currentGuess, guesses]);
 
   return (
       <div className="App">
-        <Grid tiles={
-          [
-            ...guesses,
-            currentGuess.split('')
-          ]}
-          width={5}
-          height={7}
-        />
+        <Grid currentGuess={currentGuess} guesses={guesses} hiddenWord={hiddenWord} />
       </div>
   );
 }

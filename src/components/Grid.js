@@ -9,17 +9,28 @@ const GridTile = (props) => {
 }
 
 const Grid = (props) => {
-  const tiles = props.tiles;
+  const gridWidth = 5;
+  const gridHeight = 7;
 
-  const gridWidth = props.width || tiles[0].length;
-  const gridHeight = props.height || tiles.length;
+  let tiles = [...Array(gridHeight)].map(e => Array(gridWidth));
+  for (let y = 0; y < props.guesses.length; y++) {
+    let guess = props.guesses[y];
+    for (let x = 0; x < guess.length; x++) {
+      tiles[y][x] = guess[x];
+    }
+  }
+
+  for (let x = 0; x < props.currentGuess.length; x++) {
+    tiles[props.guesses.length][x] = props.currentGuess[x];
+  }
 
   let rows = [];
   for (let y = 0; y < gridHeight; y++) {
     let row = [];
     for (let x = 0; x < gridWidth; x++) {
+      const val = tiles[y][x];
       row.push(
-        <GridTile value={(y < tiles.length && x < tiles[0].length) ? tiles[y][x] : ''} />
+        <GridTile value={tiles[y][x]} />
       );
     }
 
