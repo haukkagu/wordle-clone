@@ -3,7 +3,7 @@ import Grid from './components/Grid.js';
 import './App.css';
 
 const App = () => {
-  const hiddenWord = 'hello';
+  const hiddenWord = 'HALLO';
   const [guesses, setGuesses] = useState([]);
   const [currentGuess, setCurrentGuess] = useState("");
 

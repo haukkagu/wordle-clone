@@ -19,3 +19,19 @@
 .tile:focus {
   outline: none;
 }
+
+.tile-none {
+  background: #fff;
+}
+
+.tile-gray {
+  background: #909090;
+}
+
+.tile-yellow {
+  background: #FFA500;
+}
+
+.tile-green {
+  background: #00FF00;
+}
