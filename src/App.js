@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import Header from './components/Header.js';
 import Grid from './components/Grid.js';
 import { getRandomHiddenWord, isLegalWord } from './Wordlist.js';
 import './App.css';
@@ -35,6 +36,7 @@ const App = () => {
 
   return (
       <div className="App">
+        <Header />
         <Grid currentGuess={currentGuess} guesses={guesses} hiddenWord={hiddenWord} />
       </div>
   );
