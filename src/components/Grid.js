@@ -10,68 +10,62 @@ const Grid = (props) => {
   const gridWidth = 5;
   const gridHeight = 7;
 
-  let tiles = [...Array(gridHeight)].map(e => Array(gridWidth).fill(''));
-  for (let y = 0; y < props.guesses.length; y++) {
-    let guess = props.guesses[y];
-    for (let x = 0; x < guess.length; x++) {
-      tiles[y][x] = guess[x];
-    }
-  }
-
-  for (let x = 0; x < props.currentGuess.length; x++) {
-    tiles[props.guesses.length][x] = props.currentGuess[x];
-  }
-
   let rows = [];
-  for (let y = 0; y < gridHeight; y++) {
-    let row = [];
+  for (const guess of props.guesses) {
+    let misplacedLetterCount = {};
+    for (let i = 0; i < gridWidth; i++) {
+      const guessLetter = guess[i];
+      const hiddenWordLetter = props.hiddenWord[i];
 
-    let tmp = new Map();
-    for (let x = 0; x < gridWidth; x++) {
-      if (tiles[y][x] != props.hiddenWord[x]) {
-        if (tmp.get(props.hiddenWord[x])) {
-          tmp.set(props.hiddenWord[x], tmp.get(props.hiddenWord[x]) + 1);
+      if (guessLetter != hiddenWordLetter) {
+        const currentCount = misplacedLetterCount[hiddenWordLetter];
+        if (currentCount) {
+          misplacedLetterCount[hiddenWordLetter] = currentCount + 1;
         }else {
-          tmp.set(props.hiddenWord[x], 1);
+          misplacedLetterCount[hiddenWordLetter] = 1;
         }
       }
     }
 
-    for (let x = 0; x < gridWidth; x++) {
-      const val = tiles[y][x];
+    let row = [];
+    for (const i in guess) {
+      const guessLetter = guess[i];
+      const hiddenWordLetter = props.hiddenWord[i];
 
-      let color;
-      const inHiddenWord = (tmp.has(val) && tmp.get(val) > 0);
-      const inCorrectSpot = (val == props.hiddenWord[x]);
-      const inCurrentRow = (y == props.guesses.length);
-      const inRemainingRows = (y > props.guesses.length);
-
-      if (inCurrentRow || inRemainingRows) {
-        color = "none";
-      }else if (inCorrectSpot) {
-        color = "green";
-      }else if (inHiddenWord) {
-        color = "yellow";
-        tmp.set(val, tmp.get(val) - 1);
+      if (guessLetter == hiddenWordLetter) {
+        row.push(<GridTile value={guessLetter} color='green' />);
+      }else if (misplacedLetterCount[guessLetter] && misplacedLetterCount[guessLetter] > 0) {
+        row.push(<GridTile value={guessLetter} color='yellow' />);
+        misplacedLetterCount[guessLetter]--;
       }else {
-        color = "gray";
+        row.push(<GridTile value={guessLetter} color='gray' />);
       }
-
-      row.push(
-        <GridTile value={val} color={color} />
-      );
     }
 
-    rows.push(
-      <div className="grid-row">
-        {row}
-      </div>
-    );
+    rows.push(row);
   }
+
+  let remainingRows = [...Array(gridHeight - props.guesses.length)].map(e => Array(gridWidth).fill(''));;
+  for (let i in props.currentGuess) {
+    remainingRows[0][i] = props.currentGuess[i];
+  }
+  console.log(remainingRows);
+
+  rows.push(...remainingRows.map((row) => {
+    return row.map((letter) => {
+      return <GridTile value={letter} color='none' />
+    });
+  }));
 
   return (
     <div className="grid">
-      {rows}
+      {
+        rows.map((row) => {
+          return <div className="grid-row">
+            {row}
+          </div>
+        })
+      }
     </div>
   );
 }
