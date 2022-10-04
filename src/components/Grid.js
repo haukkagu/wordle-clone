@@ -1,6 +1,4 @@
-import { useState } from 'react'
 import './Grid.css'
-
 
 const GridTile = (props) => {
   return (
