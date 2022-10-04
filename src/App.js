@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import Grid from './components/Grid.js';
+import { getRandomHiddenWord, isLegalWord } from './Wordlist.js';
 import './App.css';
 
 const App = () => {
-  const hiddenWord = 'HALLO';
+  const [hiddenWord, setHiddenWord] = useState(getRandomHiddenWord());
   const [guesses, setGuesses] = useState([]);
   const [currentGuess, setCurrentGuess] = useState("");
 
@@ -20,8 +21,10 @@ const App = () => {
       setCurrentGuess(currentGuess.slice(0, -1));
     }
     if (submitGuess && currentGuess.length == 5) {
-      setGuesses([...guesses, currentGuess]);
-      setCurrentGuess("");
+      if (isLegalWord(currentGuess)) {
+        setGuesses([...guesses, currentGuess]);
+        setCurrentGuess("");
+      }
     }
   };
 
