@@ -49,7 +49,6 @@ const Grid = (props) => {
   for (let i in props.currentGuess) {
     remainingRows[0][i] = props.currentGuess[i];
   }
-  console.log(remainingRows);
 
   rows.push(...remainingRows.map((row) => {
     return row.map((letter) => {
